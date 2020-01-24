@@ -10,7 +10,7 @@
 
    Used the following components:
    (1) Arduino Uno
-   (2) Microchip 25LC1024 SPI EEPROM chip soldered on an Arduino Protoshield
+   (2) Microchip 25LC1024 SPI EEPROM chip
    
    Wiring:
    25LC1024 - Uno:

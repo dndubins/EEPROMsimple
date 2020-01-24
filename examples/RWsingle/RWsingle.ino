@@ -10,7 +10,7 @@
 
    Used the following components:
    (1) Arduino Uno
-   (2) Microchip 25LC1024 SPI EEPROM chip soldered on an Arduino Protoshield
+   (2) Microchip 25LC1024 SPI EEPROM chip
    
    Wiring:
    25LC1024 - Uno:
@@ -85,12 +85,12 @@ void setup()
 /************  Write Unsigned Long *******************/
   Serial.println("\nWriting unsigned long using sequential: ");
   long tempUnsignedLong1=4294967295;           // highest unsigned long #
-  EEPROM.WriteUnsignedLong(0, tempLong1);        // send tempUnsignedLong1 to EEPROM starting from address 0
+  EEPROM.WriteUnsignedLong(0, tempUnsignedLong1);        // send tempUnsignedLong1 to EEPROM starting from address 0
 
 /************ Read Unsigned Long from Memory **********/
-  Serial.println("Reading long using sequential: ");
-  long tempUnsignedLong2=EEPROM.ReadUnsignedLong(0);  // Read unsigned long from memory address 0
-  Serial.println(tempLong2);                   // print as long
+  Serial.println("Reading unsigned long using sequential: ");
+  unsigned long tempUnsignedLong2=EEPROM.ReadUnsignedLong(0);  // Read unsigned long from memory address 0
+  Serial.println(tempUnsignedLong2);                   // print as unsigned long
 
 /************  Write a Float using Sequential *******************/
   Serial.println("\nWriting float using sequential: ");
@@ -103,6 +103,5 @@ void setup()
   Serial.println(tempFloat2,6);                 // print as float
 }
 
-void loop()
-{
+void loop(){
 }

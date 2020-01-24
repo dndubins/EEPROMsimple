@@ -11,6 +11,7 @@ EEPROMsimple::EEPROMsimple(){/*nothing to construct*/}
 EEPROMsimple::~EEPROMsimple(){/*nothing to destruct*/}
 
 byte CS=10; // default CS global variable
+#define WRITEDELAY 10   // delay for writing to chip
 
 /*************  Set up CSpin and SPI settings *******************/
 void EEPROMsimple::SetMode(byte CSpin){  
@@ -25,18 +26,21 @@ void EEPROMsimple::SetMode(byte CSpin){
 void EEPROMsimple::WriteByte(uint32_t address, byte data) {
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(data);
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!
+  delay(WRITEDELAY); // this delay is important!
 }
 
 byte EEPROMsimple::ReadByte(uint32_t address) {
   SetMode(CS);
-  byte data;
+  char data;
   digitalWrite(CS, LOW);
   SPI.transfer(READ);
   SPI.transfer((byte)(address >> 16));
@@ -60,7 +64,7 @@ void EEPROMsimple::WriteByteArray(uint32_t address, byte *data, uint16_t big){
   SPI.transfer((byte)address);
   SPI.transfer(data,big);             // write the data bytes
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed
+  delay(WRITEDELAY); // this delay is needed
 }
 
 void EEPROMsimple::ReadByteArray(uint32_t address, byte *data, uint16_t big){
@@ -83,13 +87,16 @@ void EEPROMsimple::WriteInt(uint32_t address, int data){
   temp[1]=(byte)(data);                           // low byte of integer
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(temp, 2);                          // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!
+  delay(WRITEDELAY); // this delay is important!
 }
 
 int EEPROMsimple::ReadInt(uint32_t address){
@@ -129,7 +136,7 @@ void EEPROMsimple::WriteIntArray(uint32_t address, int *data, uint16_t big){
   SPI.transfer((byte)address);
   SPI.transfer(temp, big*2);                      // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed
+  delay(WRITEDELAY); // this delay is needed
 }
 
 void EEPROMsimple::ReadIntArray(uint32_t address, int *data, uint16_t big){
@@ -158,13 +165,16 @@ void EEPROMsimple::WriteUnsignedInt(uint32_t address, unsigned int data){
   temp[1]=(byte)(data);                           // low byte of integer
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(temp, 2);                          // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!
+  delay(WRITEDELAY); // this delay is important!
 }
 
 unsigned int EEPROMsimple::ReadUnsignedInt(uint32_t address){
@@ -204,7 +214,7 @@ void EEPROMsimple::WriteUnsignedIntArray(uint32_t address, unsigned int *data, u
   SPI.transfer((byte)address);
   SPI.transfer(temp, big*2);                      // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed
+  delay(WRITEDELAY); // this delay is needed
 }
 
 void EEPROMsimple::ReadUnsignedIntArray(uint32_t address, unsigned int *data, uint16_t big){
@@ -235,13 +245,16 @@ void EEPROMsimple::WriteLong(uint32_t address, long data){
   temp[3]=(byte)(data);                           // low byte of integer
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(temp, 4);                          // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!
+  delay(WRITEDELAY); // this delay is important!
 }
 
 long EEPROMsimple::ReadLong(uint32_t address){
@@ -283,7 +296,7 @@ void EEPROMsimple::WriteLongArray(uint32_t address, long *data, uint16_t big){
   SPI.transfer((byte)address);
   SPI.transfer(temp, big*4);                      // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed	
+  delay(WRITEDELAY); // this delay is needed	
 }
 
 void EEPROMsimple::ReadLongArray(uint32_t address, long *data, uint16_t big){
@@ -323,7 +336,7 @@ void EEPROMsimple::WriteUnsignedLong(uint32_t address, unsigned long data){
   SPI.transfer((byte)address);
   SPI.transfer(temp, 4);                      // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed	
+  delay(WRITEDELAY); // this delay is needed	
 }
 
 unsigned long EEPROMsimple::ReadUnsignedLong(uint32_t address){
@@ -365,7 +378,7 @@ void EEPROMsimple::WriteUnsignedLongArray(uint32_t address, unsigned long *data,
   SPI.transfer((byte)address);
   SPI.transfer(temp, big*4);                      // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is needed	                       // set SPI slave select HIGH
+  delay(WRITEDELAY); // this delay is needed	                       // set SPI slave select HIGH
 }
 
 void EEPROMsimple::ReadUnsignedLongArray(uint32_t address, unsigned long *data, uint16_t big){
@@ -392,13 +405,16 @@ void EEPROMsimple::WriteFloat(uint32_t address, float data){
   byte *temp=(byte *)&data;                       // split float into 4 bytes
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(temp, 4);                          // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!	
+  delay(WRITEDELAY); // this delay is important!	
 }
 
 float EEPROMsimple::ReadFloat(uint32_t address){
@@ -432,13 +448,16 @@ void EEPROMsimple::WriteFloatArray(uint32_t address, float *data, uint16_t big){
   }
   SetMode(CS);                 // set to send/receive single byte of data
   digitalWrite(CS, LOW);
+  SPI.transfer(WREN);
+  digitalWrite(CS, HIGH);
+  digitalWrite(CS, LOW);
   SPI.transfer(WRITE); // write instruction
   SPI.transfer((byte)(address >> 16));
   SPI.transfer((byte)(address >> 8));
   SPI.transfer((byte)address);
   SPI.transfer(holder, big*4);                          // transfer an array of data => needs array name & size (2 elements)
   digitalWrite(CS, HIGH);
-  delay(10); // this delay is important!
+  delay(WRITEDELAY); // this delay is important!
 }
 
 void EEPROMsimple::ReadFloatArray(uint32_t address, float *data, uint16_t big){
