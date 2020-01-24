@@ -5,7 +5,7 @@ This library was created from the example program SPIRamSimple.ino, created by J
 
 Sample program to use a Serial SRAM chip to expand memory for an Arduino Uno giving access to an additional 128kB of random access memory. The 23LC1024 uses the Serial Peripheral Interface (SPI) to transfer data and commands between the UNO and the memory chip. Note that the functions could be extracted as a beginning for a library for this chip.
 
-This program was adapted to the library SRAMsimple. Then, The library was converted to write to the 25LC1024 EEPROM chip using the algorithm provided in the sketch posed here: https://forum.arduino.cc/index.php?topic=141066.0
+This program was adapted to the library SRAMsimple. Then, the library was converted to write to the 25LC1024 EEPROM chip using the algorithm provided in the sketch posed here: https://forum.arduino.cc/index.php?topic=141066.0
 The sketch was written by guest user sdarque, and corrected by John Wasser on 06-Jan-13.
    
    Used the following components:
